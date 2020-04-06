@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en-US">
+
+  <head>
+    <title>Handlebars</title>
+    <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
+    <script src="./code.js"></script>
+  </head>
+
+  <body>
+    <script id="post" type="text/x-handlebars">
+      <article>
+        <h1>{{title}}</h1>
+        <p><time>Posted on {{published}}</time></p>
+        {{{body}}}
+
+        {{> tags}}
+      </article>
+    </script>
+
+    <script id="tags" type="text/x-handlebars">
+      <ul id="listTags">
+        {{#if tags}}
+          Tags:
+          {{#each tags}}  
+            <li>{{this}}</li>
+          {{/each}}
+        {{else}}
+          <p>Not tagged!</p>
+        {{/if}}
+
+      </ul>
+    </script>
+
+  </body>
+
+</html>

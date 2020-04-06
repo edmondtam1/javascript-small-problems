@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!-- This is not a complete version of this exercise; missing elements:
+- Creating new fieldset (rather than separate forms) with sequence_id and staffs
+- xhr submission event handler for multiple fields of data -->
+<html lang="en-US">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Exercise 4 - Adding Schedules</title>
+    <style>
+    dl {
+      border: 3px double #ccc;
+      padding: 0.5em;
+    }
+
+    dt {
+      float: left;
+      clear: left;
+      width: 100px;
+      text-align: right;
+      font-weight: bold;
+      color: #f0595b;
+    }
+
+    dt::after {
+      content: ":";
+    }
+
+    dd {
+      margin: 0 0 0 110px;
+      padding: 0 0 0.5em 0;
+    }
+
+    input[type="submit"] {
+      color: #fff;
+      background: #f0595b;
+      border-color: #f0595b;
+      border-radius: 5px;
+      width: 100px;
+      height: 50px;
+    }
+
+    input[type="submit"]#addScheduleButton {
+      color: #fff;
+      background: #918aec;
+      border-color: #918aec;
+      border-radius: 5px;
+      width: 100px;
+      height: 50px;
+      white-space: normal;
+    }
+
+    </style>
+  </head>
+
+  <body>
+    <input type="submit" value="Add more schedules" id="addScheduleButton">
+    <form method="post" action="/api/schedules">
+      <div id="schedules"></div>
+      <input type="submit" value="Submit" id="postAllSchedulesButton">
+    </form>
+
+    <script>
+    var schedules = [];
+    var staffList = [];
+
+    function formDataToJson(formData) {
+      var result = {};
+      for (var pair of formData.entries()) {
+        console.log(pair);
+        result[pair[0]] = pair[1];
+      }
+      return result;
+    }
+
+    function addSchedule() {
+      if (schedules.length >= 5) return null;
+      var div = document.getElementById('schedules');
+      var form;
+      if (schedules.length === 0) {
+        form = createForm();
+      } else {
+        form = schedules[0].cloneNode(true);
+        form.id = `form${schedules.length + 1}`;
+        form.reset();
+      }
+      schedules.push(form);
+      div.appendChild(form);
+    }
+
+    function createForm() {
+      var container = document.createElement('div');
+      var legend = document.createElement('legend');
+      legend.textContent = `Schedule ${schedules.length + 1}`;
+      container.appendChild(legend);
+
+      var dl = document.createElement('dl');
+      container.appendChild(dl);
+
+      var staffName = document.createElement('dt');
+      var staffNameLabel = document.createElement('label');
+      staffNameLabel.setAttribute('for', 'staffName');
+      staffNameLabel.innerHTML = 'Staff Name';
+      staffName.appendChild(staffNameLabel);
+      dl.appendChild(staffName);
+
+      var staffSelect = document.createElement('dd');
+      var staffSelectInput = document.createElement('select');
+      staffSelectInput.setAttribute('value', staffList[0].name);
+      staffList.forEach(function(staff) {
+        var option = document.createElement('option');
+        var name = staff.name;
+        option.value = name;
+        option.innerHTML = name;
+        staffSelectInput.appendChild(option);
+      });
+      staffSelect.appendChild(staffSelectInput);
+      dl.appendChild(staffSelect);
+
+      var dateDt = document.createElement('dt');
+      dateDt.innerHTML = 'Date';
+      dl.appendChild(dateDt);
+
+      var dateDd = document.createElement('dd');
+      var dateInput = document.createElement('input');
+      dateInput.setAttribute('type', 'date');
+      dateInput.setAttribute('value', 'mm-dd-yy');
+      dateDd.appendChild(dateInput);
+      dl.appendChild(dateDd);
+
+      var timeDt = document.createElement('dt');
+      timeDt.innerHTML = 'Time';
+      dl.appendChild(timeDt);
+
+      var timeDd = document.createElement('dd');
+      var timeInput = document.createElement('input');
+      timeInput.setAttribute('type', 'time');
+      timeInput.setAttribute('value', 'hh:mm');
+      timeDd.appendChild(timeInput);
+      dl.appendChild(timeDd);
+
+      return container;
+    }
+
+    function getStaffNames() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/api/staff_members');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.addEventListener('load', function(e) {
+        var data = JSON.parse(xhr.response);
+        data.forEach(function(staff) {
+          staffList.push(staff);
+        });
+        addSchedule();
+      });
+
+      xhr.addEventListener('error', function(e) {
+        console.log(xhr.responseText);
+      });
+
+      xhr.send();
+    }
+
+    function postAllSchedules(e) {
+      e.preventDefault();
+      var data = {};
+      schedules.forEach(function(schedule) {
+        var scheduleData = getScheduleData(schedule);
+        data[schedule.id] = scheduleData;
+      });
+
+      console.log(data);
+      // send data through XHR
+    }
+
+    function getScheduleData(form) {
+      console.log(form);
+      var formData = new FormData(form);
+      var data = JSON.stringify(formDataToJson(formData));
+      console.log(data);
+
+      return data;
+    }
+
+    function handleKeypress(e) {
+      e.preventDefault();
+      switch (e.key) {
+        case 'Enter':
+          postAllSchedules(e);
+          break;
+      }
+
+    }
+
+    function handleEvents() {
+      getStaffNames();
+      var addScheduleButton = document.getElementById('addScheduleButton');
+      var postAllSchedulesButton = document.getElementById('postAllSchedulesButton');
+      addScheduleButton.addEventListener('click', addSchedule);
+      postAllSchedulesButton.addEventListener('click', postAllSchedules);
+      document.addEventListener('keypress', handleKeypress);
+    }
+
+    // var form = document.querySelector('form');
+
+    // form.addEventListener('submit', function(event) {
+    //   event.preventDefault();
+    //   var formData = new FormData(form);
+    //   var data = JSON.stringify(formDataToJson(formData));
+    //   var xhr = new XMLHttpRequest();
+
+    //   xhr.open('POST', form.action);
+    //   xhr.setRequestHeader('Content-Type', 'application/json');
+    //   xhr.addEventListener('load', function(event) {
+    //     switch (xhr.status) {
+    //       case 201:
+    //         var data = JSON.parse(xhr.response);
+    //         alert(`Successfull created staff with id: ${data.id}`);
+    //         form.reset();
+    //         break;
+    //       case 400:
+    //         alert('Error: ' + xhr.responseText);
+    //     }
+    //   });
+    //   xhr.send(data);
+    // });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      handleEvents();
+    });
+
+    </script>
+  </body>
+
+</html>

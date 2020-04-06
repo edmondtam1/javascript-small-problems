@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <title>Sign up form</title>
+    <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Sign up Form</h1>
+    </header>
+    <main>
+      <form novalidate="true">
+        <dl>
+          <dt><label for="first_name">First Name</label></dt>
+          <dd><input id="first_name" type="text" name="first_name" require="true"></dd>
+          <dt><label for="last_name">Last Name</label></dt>
+          <dd><input id="last_name" type="text" name="last_name" require="true"></dd>
+          <dt><label for="email">Email</label></dt>
+          <dd><input id="email" type="text" name="email" require="true" placeholder="example@mail.com"></dd>
+          <dt><label for="password">Password</label></dt>
+          <dd><input id="password" type="password" name="password" require="true"></dd>
+          <dt><label for="phone">Phone Number</label></dt>
+          <dd><input id="phone" type="text" name="phone" placeholder="111-222-3333"></dd>
+          <dt><label for="credit">Credit Card details</label></dt>
+          <dd class="credit">
+            <input id="credit_1" type="text" name="credit">
+            <p>-</p>
+            <input id="credit_2" type="text" name="credit">
+            <p>-</p>
+            <input id="credit_3" type="text" name="credit">
+            <p>-</p>
+            <input id="credit_4" type="text" name="credit">
+          </dd>
+          <dt><input id="submit" type="submit" value="Sign Up"></dt>
+        </dl>
+      </form>
+    </main>
+    <section id="serialized">
+      <h2>Serialized Form</h2>
+      <p id="data"></p>
+    </section>
+  </body>
+
+</html>

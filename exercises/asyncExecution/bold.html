@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en-US">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Bold Element + Custom</title>
+    <script>
+    // function makeBold(element, callback) {
+    //   element.style.fontWeight = 'bold';
+    //   if (callback && typeof callback === 'function') {
+    //     callback(element);
+    //   }
+    // }
+    document.addEventListener('DOMContentLoaded', function() {
+      var sectionElement = document.querySelector('section');
+
+      function makeBold(element) {
+        element.style.fontWeight = 'bold';
+        var event = new CustomEvent('bolded');
+
+        element.dispatchEvent(event);
+      }
+
+      sectionElement.addEventListener('bolded', function(event) {
+        alert(event.target.tagName);
+        event.target.classList.add('highlight');
+      });
+
+      makeBold(sectionElement);
+    });
+
+    </script>
+  </head>
+
+  <body>
+    <section>Hello World</section>
+    <p>Greetings!</p>
+  </body>
+
+</html>

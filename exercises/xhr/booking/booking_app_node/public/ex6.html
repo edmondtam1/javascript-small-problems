@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Exercise 6 - Viewing bookings</title>
+    <style>
+    .date {
+      cursor: pointer;
+    }
+
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <h1>Bookings</h1>
+      <ul id="bookings"></ul>
+    </main>
+    <script>
+    var dates;
+    document.addEventListener('DOMContentLoaded', getDates);
+
+    function getDates() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/api/bookings');
+      xhr.addEventListener('load', function(e) {
+        dates = JSON.parse(xhr.responseText);
+        displayDates();
+      });
+      xhr.send();
+    }
+
+    function displayDates() {
+      if (dates === undefined) {
+        getDates();
+      } else {
+        var ul = document.querySelector('ul');
+        for (var i = 0; i < dates.length; i++) {
+          var li = document.createElement('li');
+          li.setAttribute('value', dates[i]);
+          li.setAttribute('class', 'date');
+          li.textContent = dates[i];
+          ul.appendChild(li);
+        }
+        ul.addEventListener('click', function(e) {
+          var node = e.target;
+          if (!node.classList.contains('date')) {
+            return;
+          }
+          var date = node.getAttribute('value');
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', `/api/bookings/${date}`);
+          xhr.addEventListener('load', function(e) {
+            if (node.children.length === 0) {
+              var ul = document.createElement('ul');
+              var data = JSON.parse(xhr.responseText);
+              var data2 = JSON.parse(xhr.response);
+              console.log(data);
+              console.log(data2);
+              for (var i = 0; i < data.length; i++) {
+                var booking = `${data[i][0]} | ${data[i][1]} | ${data[i][2]}`;
+                var li = document.createElement('li');
+                li.textContent = booking;
+                ul.appendChild(li);
+              }
+              node.appendChild(ul);
+            } else {
+              node.removeChild(node.children[0]);
+            }
+          });
+          xhr.send();
+        });
+      }
+    }
+
+    </script>
+  </body>
+
+</html>

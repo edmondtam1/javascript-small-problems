@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <title>Animal photo gallery</title>
+    <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="gallery.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Exotic Animals</h1>
+    </header>
+
+    <main>
+      <div class="wrapper"></div>
+    </main>
+
+    <script id="photo" type="text/x-handlebars">
+      {{#each photos}}
+        <figure data-id="{{name}}" class="photo">
+          <img src="{{src}}" />
+          <figcaption>{{caption}}</figcaption>
+        </figure>
+      {{/each}}
+    </script>
+  </body>
+
+</html>

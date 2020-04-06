@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en-US">
+
+  <head>
+    <title>title</title>
+    <meta charset="UTF-8">
+    <script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      var addButton = document.getElementById('add');
+      var output = document.getElementById('output');
+      var count = 0;
+
+      var button = document.getElementById('add');
+
+      button.onclick = function() {
+        var startPos;
+        console.log(startPos);
+        var geoSuccess = function(position) {
+
+          // Do magic with location
+          startPos = position;
+          document.getElementById('startLat').innerHTML = startPos.coords.latitude;
+          document.getElementById('startLon').innerHTML = startPos.coords.longitude;
+          console.log(startPos);
+        };
+        var geoError = function(error) {
+          switch (error.code) {
+            case error.TIMEOUT:
+              // The user didn't accept the callout
+              break;
+          }
+        };
+
+        navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+      };
+    });
+
+    </script>
+  </head>
+
+  <body>
+    <p>
+      <span id="output">0</span>
+      <button id="add">Add One</button>
+      <span id ="startLat">Test</span>
+      <span id ="startLon">Test2</span>
+    </p>
+  </body>
+
+</html>

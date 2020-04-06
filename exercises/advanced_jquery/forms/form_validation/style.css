@@ -1,0 +1,88 @@
+@import url("whitespace-reset.css");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  font: normal 20px Helvetica, Arial, sans-serif;
+  background: rgb(0, 170, 0);
+}
+
+header {
+  margin: 0 auto;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  padding: 10px;
+}
+
+main,
+section {
+  width: 700px;
+  background-color: white;
+  margin: 0 auto;
+  border-radius: 5px;
+}
+
+form {
+  padding: 10px 20px 20px;
+}
+
+dt {
+  margin: 20px 0 5px;
+}
+
+dd input {
+  width: 300px;
+  height: 40px;
+  font-size: 20px;
+  padding: 10px 5px;
+  display: inline-block;
+}
+
+input:focus {
+  box-shadow: 0 0 5px 1px green;
+}
+
+input:invalid {
+  box-shadow: 0 0 5px 1px red;
+}
+
+input[type=submit] {
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  width: 100px;
+  background-color: rgb(0, 200, 0);
+}
+
+input[name=credit] {
+  font-size: 16px;
+  width: 60px;
+}
+
+dd span {
+  color: red;
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+dd.credit p {
+  display: inline-block;
+  padding: 0 3px;
+  width: 10px;
+  margin: 0 auto;
+}
+
+section {
+  margin-top: 20px;
+  padding: 10px 20px 20px;
+}
+
+#data {
+  padding: 20px;
+  font-family: monospace;
+  white-space: pre-wrap;
+}

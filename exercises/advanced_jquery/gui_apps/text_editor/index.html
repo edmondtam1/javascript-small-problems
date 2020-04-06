@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <title>Rich Text Editor</title>
+    <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Rich Text Editor</h1>
+    </header>
+    <main>
+      <div id="editor">
+        <div id="buttons">
+        </div>
+
+        <div id="text_input" contenteditable="true">
+          <p>Edit your content here!</p>
+        </div>
+      </div>
+
+      <script id="icon_tmpl" type="text/handlebar">
+        <button id={{name}} name="button" class="icon" data-triggered="false">
+          <img src="{{path}}"/>
+        </button>
+      </script>
+    </main>
+  </body>
+
+</html>
