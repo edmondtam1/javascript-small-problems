@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en-US">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Exercise 6</title>
+    <style>
+    #bookings-list>li {
+      cursor: pointer;
+    }
+
+    </style>
+  </head>
+
+  <body>
+    <h1>Bookings</h1>
+    <ul id="bookings-list">
+    </ul>
+
+    <script>
+    var templates = (function() {
+      var _templates = []
+      document.querySelectorAll("script[type='text/x-handlebars']").forEach(function(node) {
+        _templates[node.id] = Handlebars.compile(node.innerHTML);
+      });
+
+      return _templates;
+    })();
+
+    function bookingListTemplate(data) {
+      var li = document.createElement('li');
+      li.textContent = data;
+      return li;
+    }
+
+    function bookingDetailsTemplate(data) {
+      var ulEle = document.createElement('ul')
+      data.forEach(function(bookingDetail) {
+        var li = document.createElement('li');
+        li.textContent = `${bookingDetail.staffName} | ${bookingDetail.studentEmail} | ${bookingDetail.time}`;
+        ulEle.appendChild(li);
+      });
+
+      return ulEle;
+    }
+
+    function renderBookingDetails(node, bookings) {
+      var bookingsObject = bookings.map(function(booking) {
+        return {
+          staffName: booking[0],
+          studentEmail: booking[1],
+          time: booking[2],
+        };
+      });
+
+      node.appendChild(bookingDetailsTemplate(bookingsObject));
+    }
+
+    document.querySelector('#bookings-list').addEventListener('click', function(event) {
+      if (event.target.tagName === 'LI') {
+        if (event.target.childElementCount === 0) {
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', '/api/bookings/' + event.target.textContent);
+          xhr.responseType = 'json'
+          xhr.send();
+          xhr.addEventListener('load', function() {
+            data = xhr.response;
+            renderBookingDetails(event.target, data);
+          });
+        }
+      }
+    });
+
+    (function() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/api/bookings');
+      xhr.responseType = 'json';
+      xhr.send();
+      xhr.addEventListener('load', function() {
+        var data = xhr.response;
+        var bookingList = document.querySelector('#bookings-list');
+        data.forEach(function(date) {
+          bookingList.appendChild(bookingListTemplate(date));
+        });
+      });
+    })();
+
+    </script>
+  </body>
+
+</html>

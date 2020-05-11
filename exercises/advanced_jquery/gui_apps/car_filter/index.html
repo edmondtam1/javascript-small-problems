@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <title>Car filter</title>
+    <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Buy Used Cars</h1>
+      <form id="filters">
+      </form>
+    </header>
+    <main>
+      <div id="cars"></div>
+    </main>
+
+    <script id="filters_tmpl" type="text/x-handlebars">
+      <label for="make_select">Make</label>
+      <select id="make_select" name="make">
+        {{>options list=make}}
+      </select>
+      <label for="model_select">Model</label>
+      <select id="model_select" name="model">
+        {{>options list=model}}
+      </select>
+      <label for="price_select">Price</label>
+      <select id="price_select" name="price">
+        {{>options list=price}}
+      </select>
+      <label for="year_select">Year</label>
+      <select id="year_select" name="year">
+        {{>options list=year}}
+      </select>
+      <input type="submit" class="filter_btn" value="Submit" />
+    </script>
+
+    <script id="options_tmpl" type="text/x-handlebars">
+      {{#if unfiltered}}
+        <option value="">All</option>
+      {{/if}}
+      {{#each list}}
+        <option value="{{name}}">{{name}}</option>
+      {{/each}}
+    </script>
+
+    <script id="car_tmpl" type="text/x-handlebars">
+      {{#each cars}}
+        <div class="car">
+          <figure>
+            <img src="{{image}}" alt="{{make}} {{model}}" />
+          </figure>
+            <h2>{{make}} {{model}}</h2>
+            <p class="year">Year: {{year}}</p>
+            <p class="price">Price: ${{price}}</p>
+            <a href="#">Buy</a>
+        </div>
+      {{/each}}
+    </script>
+  </body>
+
+</html>

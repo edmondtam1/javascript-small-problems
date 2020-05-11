@@ -1,0 +1,17 @@
+{
+  "name": "autocomplete-node",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "acorn": "^7.1.1",
+    "clean-css": "^4.2.3",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "kind-of": "^6.0.3",
+    "lodash": "^4.17.15",
+    "pug": "^2.0.4"
+  }
+}

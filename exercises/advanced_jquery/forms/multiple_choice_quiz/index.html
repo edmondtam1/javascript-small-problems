@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <title>Multiple Choice Quiz</title>
+    <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Multiple Choice Quiz</h1>
+      <p>Hi there</p>
+    </header>
+    <main>
+      <form>
+        <dl>
+          <div id="questions"></div>
+          <dt><input id="submitBtn" type="submit" value="Submit"><input id="resetBtn" type="reset" value="Reset"></dt>
+        </dl>
+      </form>
+    </main>
+    <script id="question_tmpl" type="text/x-handlebars">
+      {{#each questions as |value key|}}
+        <dt data-id="{{id}}">
+          Q{{inc @index}}. {{{description}}}
+        </dt>
+        <dd>
+          {{#each options}}
+            {{>option option=. id=value.id}}
+          {{/each}}
+          <p class="questionMsg" data-id="{{id}}"></p>
+        </dd>
+      {{/each}}
+    </script>
+
+    <script id="option_tmpl" type="text/x-handlebars">
+      <label>
+        <input name="{{id}}" type="radio" value="{{option}}">
+        {{option}} 
+      </label>
+    </script>
+  </body>
+
+</html>
