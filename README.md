@@ -1,6 +1,6 @@
 # JavaScript Small Problems
 
-This repository contains exercises done to understand JS fundamentals, including:
+This repository contains exercises done to understand programming with JavaScript, including:
 
 - Fundamental JavaScript syntax
 - Algorithmic thinking with JS
